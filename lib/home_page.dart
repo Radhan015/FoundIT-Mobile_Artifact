@@ -5,6 +5,8 @@ import 'dart:io';
 import 'providers/auth_provider.dart';
 import 'providers/item_provider.dart';
 import 'models/item_model.dart';
+import 'package:quick_actions/quick_actions.dart';
+import 'add_post_page.dart';
 
 import 'widgets/logout_dialog.dart';
 import 'profile_page.dart';
@@ -19,10 +21,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _searchCtrl = TextEditingController();
+  File? pickedImage;
+  bool isSubmitting = false;
+  final QuickActions quickActions = const QuickActions();
 
   @override
   void initState() {
     super.initState();
+    quickActions.initialize((String shortcutType) {
+      if (shortcutType == 'action_add_post') {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const AddPostPage()));
+      }
+    });
+
+    quickActions.setShortcutItems(<ShortcutItem>[
+      const ShortcutItem(type: 'action_add_post', localizedTitle: 'Lapor Barang Hilang'),
+    ]);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ItemProvider>().fetchItems();
     });
