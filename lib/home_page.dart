@@ -327,7 +327,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showVerificationDialog(BuildContext context, ItemModel item) {
-    final noTelpCtrl = TextEditingController();
+    final auth = context.read<AuthProvider>();
+    final noTelpCtrl = TextEditingController(text: auth.user?.noTelp ?? '');
     final lokasiCtrl = TextEditingController(text: item.lokasi);
     final jamCtrl = TextEditingController();
     final tanggalCtrl = TextEditingController();
@@ -367,7 +368,7 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Foto Bukti Penemuan'),
+                        const Text('Foto Bukti Penemuan *'),
                         const SizedBox(height: 6),
                         GestureDetector(
                           onTap: () async {
@@ -422,15 +423,15 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        const Text('Nomor Telepon'),
+                        const Text('Nomor Telepon *'),
                         const SizedBox(height: 6),
                         _inputField(ctrl: noTelpCtrl, hint: 'Contoh: 08123456789', keyboardType: TextInputType.phone),
                         const SizedBox(height: 12),
-                        const Text('Lokasi'),
+                        const Text('📍 Lokasi Pengambilan Barang *'),
                         const SizedBox(height: 6),
-                        _inputField(ctrl: lokasiCtrl),
+                        _inputField(ctrl: lokasiCtrl, hint: 'Contoh: Lobby GKU, Kantin TULT...'),
                         const SizedBox(height: 12),
-                        const Text('Tanggal & Jam Janji Temu'),
+                        const Text('📅 Tanggal & Jam Janji Temu *'),
                         const SizedBox(height: 6),
                         Row(
                           children: [

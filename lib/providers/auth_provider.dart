@@ -138,6 +138,7 @@ class AuthProvider extends ChangeNotifier {
       };
       if (password != null && password.isNotEmpty) {
         fields['password'] = password;
+        fields['password_confirmation'] = password;
       }
 
       final responseBody = await _sendUpdateRequest(fields, fotoPath);
@@ -149,6 +150,7 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
         return null;
       } else {
+        notifyListeners();
         if (responseBody?['errors'] != null) {
           final errors = responseBody?['errors'] as Map<String, dynamic>;
           return errors.values.first[0] as String;

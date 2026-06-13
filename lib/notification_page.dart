@@ -132,15 +132,24 @@ class _NotificationPageState extends State<NotificationPage> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: isConfirmed ? Colors.green.withValues(alpha: 0.85) : isRejected ? Colors.red.withValues(alpha: 0.75) : Colors.orange.withValues(alpha: 0.85),
-                        borderRadius: BorderRadius.circular(4),
+                        color: isConfirmed 
+                            ? Colors.green.withValues(alpha: 0.85) 
+                            : isRejected 
+                                ? Colors.grey.withValues(alpha: 0.85) // Change rejected to grey to distinguish from new
+                                : const Color(0xFFEF4444).withValues(alpha: 0.9), // Red for new report
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(isConfirmed ? Icons.check : isRejected ? Icons.close : Icons.hourglass_empty, color: Colors.white, size: 12),
+                          if (isConfirmed) const Icon(Icons.check, color: Colors.white, size: 12),
+                          if (isRejected) const Icon(Icons.close, color: Colors.white, size: 12),
+                          if (!isConfirmed && !isRejected) const Text('🔔', style: TextStyle(fontSize: 10)),
                           const SizedBox(width: 4),
-                          Text(isConfirmed ? 'Dikonfirmasi' : isRejected ? 'Ditolak' : 'Pending', style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                          Text(
+                            isConfirmed ? 'Dikonfirmasi' : isRejected ? 'Ditolak' : 'Barang Ditemukan!', 
+                            style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)
+                          ),
                         ],
                       ),
                     ),
@@ -230,7 +239,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       const SizedBox(height: 12),
                       _detailField('Deskripsi', item?.deskripsiBarang ?? '-'),
                       const SizedBox(height: 12),
-                      _detailField('Lokasi', report.lokasi ?? item?.lokasi ?? '-'),
+                      _detailField('Lokasi Pengambilan Barang', report.lokasi ?? item?.lokasi ?? '-'),
                       const SizedBox(height: 12),
                       _detailField('Penemu', finder?.name ?? '-'),
                       const SizedBox(height: 12),
